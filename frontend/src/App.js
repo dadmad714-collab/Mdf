@@ -233,25 +233,45 @@ const Dashboard = () => {
 
                   {/* Financial Results Preview */}
                   {project.financial_results && (
-                    <div className="bg-emerald-50 rounded-xl p-4 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-emerald-800">صافي القيمة الحالية</span>
-                        <span className="text-sm font-bold text-emerald-900">
-                          {project.financial_results.npv.toLocaleString('ar-SA')} ريال
-                        </span>
+                    <div className="bg-emerald-50 rounded-xl p-4 space-y-3">
+                      <div className="text-center mb-3">
+                        <Badge 
+                          variant={project.financial_results.is_feasible ? "default" : "destructive"}
+                          className="text-sm font-bold px-4 py-1"
+                        >
+                          {project.financial_results.is_feasible ? "مجدي اقتصادياً ✅" : "غير مجدي اقتصادياً ❌"}
+                        </Badge>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-emerald-800">معدل العائد الداخلي</span>
-                        <span className="text-sm font-bold text-emerald-900">
-                          {project.financial_results.irr.toFixed(1)}%
-                        </span>
+                      
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="bg-white/60 rounded-lg p-2">
+                          <div className="text-xs text-emerald-600 mb-1">صافي القيمة الحالية</div>
+                          <div className="font-bold text-emerald-900">
+                            {(project.financial_results.npv / 1000000).toFixed(1)} مليون ريال
+                          </div>
+                        </div>
+                        
+                        <div className="bg-white/60 rounded-lg p-2">
+                          <div className="text-xs text-emerald-600 mb-1">معدل العائد الداخلي</div>
+                          <div className="font-bold text-emerald-900">
+                            {project.financial_results.irr.toFixed(1)}%
+                          </div>
+                        </div>
+                        
+                        <div className="bg-white/60 rounded-lg p-2">
+                          <div className="text-xs text-emerald-600 mb-1">فترة الاسترداد</div>
+                          <div className="font-bold text-emerald-900">
+                            {project.financial_results.payback_period.toFixed(1)} سنة
+                          </div>
+                        </div>
+                        
+                        <div className="bg-white/60 rounded-lg p-2">
+                          <div className="text-xs text-emerald-600 mb-1">العائد على الاستثمار</div>
+                          <div className="font-bold text-emerald-900">
+                            {project.financial_results.roi.toFixed(1)}%
+                          </div>
+                        </div>
                       </div>
-                      <Badge 
-                        variant={project.financial_results.is_feasible ? "default" : "destructive"}
-                        className="w-full justify-center mt-2"
-                      >
-                        {project.financial_results.is_feasible ? "مجدي اقتصادياً" : "غير مجدي اقتصادياً"}
-                      </Badge>
                     </div>
                   )}
 
