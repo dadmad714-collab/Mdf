@@ -281,7 +281,7 @@ const Dashboard = () => {
                         <div className="bg-white/60 rounded-lg p-2">
                           <div className="text-xs text-emerald-600 mb-1">معدل العائد الداخلي</div>
                           <div className="font-bold text-emerald-900">
-                            {project.financial_results.irr.toFixed(1)}%
+                            {project.financial_results.irr ? project.financial_results.irr.toFixed(1) : 0}%
                           </div>
                         </div>
                         
