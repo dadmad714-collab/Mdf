@@ -1,34 +1,237 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+body {
+  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 35%, #e6fffa 100%);
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.App {
+  min-height: 100vh;
 }
 
-.App-link {
-    color: #61dafb;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
+/* Form styling */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Animation classes */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom glass effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Enhanced shadow effects */
+.shadow-elegant {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-elegant-hover {
+  transition: box-shadow 0.3s ease;
+}
+
+.shadow-elegant-hover:hover {
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Arabic text alignment */
+.text-arabic {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Custom gradient backgrounds */
+.bg-emerald-gradient {
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+}
+
+.bg-emerald-soft-gradient {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%);
+}
+
+/* Enhanced button styles */
+.btn-emerald-gradient {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-emerald-gradient:hover {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
+}
+
+/* Progress bar styling */
+.progress-emerald {
+  background-color: #d1fae5;
+}
+
+.progress-emerald .progress-bar {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+}
+
+/* Card hover effects */
+.card-hover-effect {
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading animation */
+.loading-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  animation: loading 1.4s infinite ease-in-out both;
+}
+
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes loading {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* Toast styling enhancement */
+.toast-success {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  color: white;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  color: white;
+}
+
+/* Form field focus states */
+.form-field-focus {
+  transition: all 0.2s ease;
+}
+
+.form-field-focus:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Custom badge styles */
+.badge-success {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  color: white;
+}
+
+.badge-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  color: white;
+}
+
+.badge-info {
+  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  color: white;
+}
+
+/* Enhanced spacing for Arabic content */
+.spacing-arabic {
+  letter-spacing: 0.025em;
+  line-height: 1.7;
+}
+
+/* Responsive text sizing */
+@media (max-width: 768px) {
+  .text-responsive-lg {
+    font-size: 1.25rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 1.5rem;
+  }
+}
+
+/* Print styles for reports */
+@media print {
+  .print-hidden {
+    display: none !important;
+  }
+  
+  .print-page-break {
+    page-break-before: always;
+  }
 }
