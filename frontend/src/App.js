@@ -335,8 +335,8 @@ const ProjectModal = ({ project, onClose, onUpdate }) => {
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" dir="rtl">
-        <DialogHeader>
+      <DialogContent className="max-w-5xl max-h-[95vh] overflow-y-auto" dir="rtl">
+        <DialogHeader className="sticky top-0 bg-white z-10 pb-4 border-b">
           <DialogTitle className="text-xl font-bold text-emerald-900">
             {project.project_name}
           </DialogTitle>
@@ -345,21 +345,31 @@ const ProjectModal = ({ project, onClose, onUpdate }) => {
           </DialogDescription>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="financial" className="flex items-center">
-              <DollarSign className="h-4 w-4 ml-1" />
-              البيانات المالية
-            </TabsTrigger>
-            <TabsTrigger value="technical" className="flex items-center">
-              <Factory className="h-4 w-4 ml-1" />
-              البيانات الفنية
-            </TabsTrigger>
-            <TabsTrigger value="market" className="flex items-center">
-              <TrendingUp className="h-4 w-4 ml-1" />
-              بيانات السوق
-            </TabsTrigger>
-          </TabsList>
+        <div className="py-4">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-6 h-12 bg-emerald-50">
+              <TabsTrigger 
+                value="financial" 
+                className="flex items-center text-sm font-medium py-3 data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+              >
+                <DollarSign className="h-4 w-4 ml-1" />
+                البيانات المالية
+              </TabsTrigger>
+              <TabsTrigger 
+                value="technical" 
+                className="flex items-center text-sm font-medium py-3 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+              >
+                <Factory className="h-4 w-4 ml-1" />
+                البيانات الفنية
+              </TabsTrigger>
+              <TabsTrigger 
+                value="market" 
+                className="flex items-center text-sm font-medium py-3 data-[state=active]:bg-purple-600 data-[state=active]:text-white"
+              >
+                <TrendingUp className="h-4 w-4 ml-1" />
+                بيانات السوق
+              </TabsTrigger>
+            </TabsList>
 
           <TabsContent value="financial" className="space-y-6 mt-6">
             <FinancialDataForm data={financialData} onChange={setFinancialData} />
