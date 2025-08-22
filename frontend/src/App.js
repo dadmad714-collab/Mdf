@@ -288,7 +288,7 @@ const Dashboard = () => {
                         <div className="bg-white/60 rounded-lg p-2">
                           <div className="text-xs text-emerald-600 mb-1">فترة الاسترداد</div>
                           <div className="font-bold text-emerald-900">
-                            {project.financial_results.payback_period.toFixed(1)} سنة
+                            {project.financial_results.payback_period ? project.financial_results.payback_period.toFixed(1) : 0} سنة
                           </div>
                         </div>
                         
