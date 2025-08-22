@@ -382,9 +382,10 @@ const ProjectModal = ({ project, onClose, onUpdate }) => {
           <TabsContent value="market" className="space-y-6 mt-6">
             <MarketDataForm data={marketData} onChange={setMarketData} />
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        </div>
 
-        <div className="flex justify-end space-x-2 space-x-reverse pt-6 border-t">
+        <div className="flex justify-end space-x-2 space-x-reverse pt-6 border-t bg-white sticky bottom-0">
           <Button variant="outline" onClick={onClose}>
             إلغاء
           </Button>
