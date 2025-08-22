@@ -318,6 +318,172 @@ async def get_financial_results(project_id: str):
     
     return results
 
+def generate_pdf_report(project: dict) -> io.BytesIO:
+    """Generate PDF report for the project"""
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, topMargin=2*cm, bottomMargin=2*cm)
+    
+    # Define styles
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        'CustomTitle',
+        parent=styles['Heading1'],
+        fontSize=18,
+        spaceAfter=30,
+        alignment=1,  # Center alignment
+        textColor=colors.darkgreen
+    )
+    
+    heading_style = ParagraphStyle(
+        'CustomHeading',
+        parent=styles['Heading2'],
+        fontSize=14,
+        spaceAfter=12,
+        textColor=colors.darkblue
+    )
+    
+    # Build content
+    content = []
+    
+    # Title
+    content.append(Paragraph("دراسة الجدوى الاقتصادية", title_style))
+    content.append(Paragraph("مصنع ألواح MDF من سعف النخيل", title_style))
+    content.append(Spacer(1, 20))
+    
+    # Project Info
+    content.append(Paragraph("معلومات المشروع", heading_style))
+    project_info = [
+        ["اسم المشروع:", project.get('project_name', 'غير محدد')],
+        ["تاريخ الإنشاء:", datetime.fromisoformat(project['created_at']).strftime('%Y-%m-%d') if isinstance(project.get('created_at'), str) else project.get('created_at', '').strftime('%Y-%m-%d')],
+        ["حالة المشروع:", "مكتمل" if project.get('is_completed') else "قيد التنفيذ"]
+    ]
+    
+    project_table = Table(project_info, colWidths=[4*cm, 8*cm])
+    project_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('BACKGROUND', (1, 0), (1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+    ]))
+    
+    content.append(project_table)
+    content.append(Spacer(1, 20))
+    
+    # Financial Results
+    if project.get('financial_results'):
+        results = project['financial_results']
+        content.append(Paragraph("النتائج المالية", heading_style))
+        
+        financial_data = [
+            ["إجمالي الاستثمار:", f"{results.get('total_investment', 0):,.0f} ريال"],
+            ["الإيرادات السنوية:", f"{results.get('annual_revenue', 0):,.0f} ريال"],
+            ["التكاليف السنوية:", f"{results.get('annual_costs', 0):,.0f} ريال"],
+            ["الربح السنوي:", f"{results.get('annual_profit', 0):,.0f} ريال"],
+            ["صافي القيمة الحالية (NPV):", f"{results.get('npv', 0):,.0f} ريال"],
+            ["معدل العائد الداخلي (IRR):", f"{results.get('irr', 0):.1f}%"],
+            ["فترة الاسترداد:", f"{results.get('payback_period', 0):.1f} سنة"],
+            ["العائد على الاستثمار (ROI):", f"{results.get('roi', 0):.1f}%"],
+            ["الجدوى الاقتصادية:", "مجدي اقتصادياً" if results.get('is_feasible') else "غير مجدي اقتصادياً"]
+        ]
+        
+        financial_table = Table(financial_data, colWidths=[6*cm, 6*cm])
+        financial_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (0, -1), colors.lightblue),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),
+            ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+            ('BACKGROUND', (1, 0), (1, -1), colors.lightyellow),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black)
+        ]))
+        
+        content.append(financial_table)
+        content.append(Spacer(1, 20))
+    
+    # Technical Data
+    if project.get('technical_data'):
+        tech_data = project['technical_data']
+        content.append(Paragraph("البيانات الفنية", heading_style))
+        
+        technical_info = [
+            ["الطاقة الإنتاجية اليومية:", f"{tech_data.get('daily_production_capacity', 0)} متر مكعب"],
+            ["أيام العمل الشهرية:", f"{tech_data.get('working_days_per_month', 0)} يوم"],
+            ["المساحة المطلوبة:", f"{tech_data.get('factory_area_required', 0)} متر مربع"],
+            ["الطاقة الكهربائية المطلوبة:", f"{tech_data.get('electricity_requirement_kw', 0)} كيلو واط"],
+            ["عدد العمال المطلوب:", f"{tech_data.get('labor_requirement', 0)} عامل"]
+        ]
+        
+        technical_table = Table(technical_info, colWidths=[6*cm, 6*cm])
+        technical_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (0, -1), colors.lightgreen),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),
+            ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+            ('BACKGROUND', (1, 0), (1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black)
+        ]))
+        
+        content.append(technical_table)
+        content.append(Spacer(1, 20))
+    
+    # Market Data
+    if project.get('market_data'):
+        market_data = project['market_data']
+        content.append(Paragraph("بيانات السوق", heading_style))
+        
+        market_info = [
+            ["حجم السوق المستهدف:", f"{market_data.get('target_market_size', 0):,.0f} ريال"],
+            ["معدل نمو السوق:", f"{market_data.get('market_growth_rate', 0):.1f}%"],
+            ["الحصة السوقية المستهدفة:", f"{market_data.get('market_share_target', 0):.1f}%"],
+            ["استراتيجية التسعير:", market_data.get('pricing_strategy', 'غير محدد')],
+            ["مستوى المنافسة:", market_data.get('competition_level', 'غير محدد')]
+        ]
+        
+        market_table = Table(market_info, colWidths=[6*cm, 6*cm])
+        market_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (0, -1), colors.lightcoral),
+            ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'RIGHT'),
+            ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+            ('BACKGROUND', (1, 0), (1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black)
+        ]))
+        
+        content.append(market_table)
+    
+    # Build PDF
+    doc.build(content)
+    buffer.seek(0)
+    return buffer
+
+@api_router.get("/projects/{project_id}/report")
+async def generate_project_report(project_id: str):
+    """Generate and download PDF report for the project"""
+    project = await db.feasibility_projects.find_one({"id": project_id})
+    if not project:
+        raise HTTPException(status_code=404, detail="المشروع غير موجود")
+    
+    # Generate PDF
+    try:
+        pdf_buffer = generate_pdf_report(project)
+        
+        return StreamingResponse(
+            io.BytesIO(pdf_buffer.read()),
+            media_type="application/pdf",
+            headers={"Content-Disposition": f"attachment; filename=feasibility_report_{project_id}.pdf"}
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"فشل في إنتاج التقرير: {str(e)}")
+
 # Include the router in the main app
 app.include_router(api_router)
 
