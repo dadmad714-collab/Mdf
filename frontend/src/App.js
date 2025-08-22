@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./components/ui/dialog";
 import { Badge } from "./components/ui/badge";
 import { Progress } from "./components/ui/progress";
-import { BarChart3, Calculator, FileText, TrendingUp, Factory, DollarSign, Users, Target, Plus, Edit, Trash2, Eye } from "lucide-react";
+import { BarChart3, Calculator, FileText, TrendingUp, Factory, DollarSign, Users, Target, Plus, Edit, Trash2, Eye, Download } from "lucide-react";
 import { Toaster } from "./components/ui/toaster";
 import { useToast } from "./hooks/use-toast";
 
