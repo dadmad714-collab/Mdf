@@ -69,6 +69,10 @@ const Dashboard = () => {
   };
 
   const deleteProject = async (projectId) => {
+    if (!window.confirm("هل أنت متأكد من حذف هذا المشروع؟ هذا الإجراء لا يمكن التراجع عنه.")) {
+      return;
+    }
+    
     try {
       await axios.delete(`${API}/projects/${projectId}`);
       fetchProjects();
