@@ -68,7 +68,32 @@ const Dashboard = () => {
     }
   };
 
-  const deleteProject = async (projectId) => {
+  const downloadReport = async (projectId, projectName) => {
+    try {
+      const response = await axios.get(`${API}/projects/${projectId}/report`, {
+        responseType: 'blob'
+      });
+      
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `تقرير_دراسة_الجدوى_${projectName}.pdf`;
+      link.click();
+      window.URL.revokeObjectURL(url);
+      
+      toast({
+        title: "نجح العملية",
+        description: "تم تحميل التقرير بنجاح",
+      });
+    } catch (error) {
+      toast({
+        title: "خطأ",
+        description: "فشل في تحميل التقرير",
+        variant: "destructive",
+      });
+    }
+  };
     if (!window.confirm("هل أنت متأكد من حذف هذا المشروع؟ هذا الإجراء لا يمكن التراجع عنه.")) {
       return;
     }
