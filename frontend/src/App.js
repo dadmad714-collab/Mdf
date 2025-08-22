@@ -303,7 +303,7 @@ const Dashboard = () => {
                   )}
 
                   {/* Action Buttons */}
-                  <div className="flex space-x-2 space-x-reverse pt-4 border-t border-emerald-100">
+                  <div className="flex space-x-1 space-x-reverse pt-4 border-t border-emerald-100">
                     <Button
                       variant="outline"
                       size="sm"
@@ -322,6 +322,16 @@ const Dashboard = () => {
                       <Edit className="h-4 w-4 ml-1" />
                       تعديل
                     </Button>
+                    {project.is_completed && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => downloadReport(project.id, project.project_name)}
+                        className="hover:bg-green-50 hover:border-green-300 hover:text-green-600"
+                      >
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    )}
                     <Button
                       variant="outline"
                       size="sm"
