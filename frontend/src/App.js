@@ -274,7 +274,7 @@ const Dashboard = () => {
                         <div className="bg-white/60 rounded-lg p-2">
                           <div className="text-xs text-emerald-600 mb-1">صافي القيمة الحالية</div>
                           <div className="font-bold text-emerald-900">
-                            {(project.financial_results.npv / 1000000).toFixed(1)} مليون ريال
+                            {(project.financial_results.npv ? (project.financial_results.npv / 1000000).toFixed(1) : 0)} مليون ريال
                           </div>
                         </div>
                         
